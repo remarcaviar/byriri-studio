@@ -931,7 +931,7 @@
       <p>"Tell me about your business and I'll tell you what it could be."</p>
       <div class="contact-detail">
         <span class="contact-detail-label">Email</span>
-        <span class="contact-detail-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1c7e656e756e75326f68697875735c7b717d7570327f7371">[email&#160;protected]</a></span>
+        <span class="contact-detail-value" id="email-display"></span>
       </div>
 
     </div>
@@ -982,6 +982,19 @@
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Inject email to bypass Cloudflare scraping
+  const u = 'byriri.studio';
+  const d = 'gmail.com';
+  const el = document.getElementById('email-display');
+  if (el) {
+    const a = document.createElement('a');
+    a.href = 'mailto:' + u + '@' + d;
+    a.textContent = u + '@' + d;
+    a.style.color = 'var(--cream)';
+    a.style.textDecoration = 'none';
+    el.appendChild(a);
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     const btn = e.target.querySelector('.form-submit');
@@ -1008,4 +1021,4 @@
   });
 </script>
 </body>
-</html> 
+</html>
