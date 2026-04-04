@@ -983,13 +983,14 @@
 
 <script data-cfasync="false">
   // Inject email to bypass Cloudflare scraping
-  const u = 'byriri.studio';
-  const d = 'gmail.com';
   const el = document.getElementById('email-display');
   if (el) {
     const a = document.createElement('a');
-    a.href = 'mailto:' + u + '@' + d;
-    a.textContent = u + '@' + d;
+    // Obfuscate email using reverse string
+    const rev = 'moc.liamg@oiduts.irirb';
+    const email = rev.split('').reverse().join('');
+    a.href = 'mailto:' + email;
+    a.textContent = email;
     a.style.color = 'var(--cream)';
     a.style.textDecoration = 'none';
     el.appendChild(a);
