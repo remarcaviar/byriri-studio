@@ -919,6 +919,30 @@
         opacity: 0.06;
       }
     }
+  
+  .overlay-text span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  margin-right: 6px;
+}
+
+/* stagger */
+.overlay-text span:nth-child(1) { animation-delay: 0.1s; }
+.overlay-text span:nth-child(2) { animation-delay: 0.2s; }
+.overlay-text span:nth-child(4) { animation-delay: 0.3s; }
+.overlay-text span:nth-child(5) { animation-delay: 0.4s; }
+.overlay-text span:nth-child(7) { animation-delay: 0.5s; }
+.overlay-text span:nth-child(8) { animation-delay: 0.6s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
   </style>
 </head>
 
@@ -940,7 +964,14 @@
   <section class="hero" id="home">
     <div class="hero-left">
       <p class="hero-eyebrow">Brand Strategy & Positioning</p>
-      <h1 class="hero-title">Know it.<br><em>Build it.</em><br>Mean it.</h1>
+    <h1 class="hero-title overlay-text">
+      <span>Know</span>
+      <span>it.</span><br>
+      <span><em>Build</em></span>
+      <span><em>it.</em></span><br>
+      <span>Mean</span>
+      <span>it.</span>
+    </h1>
       <p class="hero-tagline">For brands ready to be seen.</p>
       <div class="hero-actions">
         <a href="#services" class="btn-primary">View services</a>
