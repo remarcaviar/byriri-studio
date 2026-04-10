@@ -986,6 +986,41 @@
   }
 
 }
+
+/* HAMBURGER DEFAULT (hidden on desktop) */
+.hamburger {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* MOBILE STYLES */
+@media (max-width: 768px) {
+
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background: white;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-cta {
+    display: none;
+  }
+}
   </style>
 </head>
 
@@ -994,6 +1029,7 @@
   <!-- NAV -->
   <nav>
     <a href="#" class="nav-logo">By Riri</a>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
@@ -1299,6 +1335,12 @@
       el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
       observer.observe(el);
     });
+  </script>
+  <script>
+    function toggleMenu() {
+      const menu = document.querySelector('.nav-links');
+      menu.classList.toggle('active');
+    }
   </script>
 </body>
 
