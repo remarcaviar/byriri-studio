@@ -1002,19 +1002,39 @@
   }
 
   .nav-links {
-    display: none;
-    position: absolute;
-    top: 70px;
-    right: 20px;
-    background: white;
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px;
-    border-radius: 10px;
-  }
+  display: none;
+  position: absolute;
+  top: 70px;
+  right: 16px;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px 20px;
+
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+.nav-links a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.nav-links a:hover {
+  opacity: 0.6;
+}
 
   .nav-links.active {
     display: flex;
+    opacity: 1;
+  transform: translateY(0);
   }
 
   .nav-cta {
