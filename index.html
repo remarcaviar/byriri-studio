@@ -1018,6 +1018,7 @@
       padding-top: 110px;
       background: rgba(20, 10, 5, 0.45);
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
       transition: opacity 0.45s ease-in-out;
       z-index: 1200;
@@ -1025,6 +1026,7 @@
 
     .cloud-overlay.active {
       opacity: 1;
+      visibility: visible;
       pointer-events: all;
     }
 
@@ -1046,11 +1048,13 @@
       text-align: center;
       color: #FFFFFF;
       transform: translateY(30px) scale(0.96);
+      pointer-events: none;
       transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .cloud-overlay.active .cloud-popup {
       transform: translateY(0) scale(1);
+      pointer-events: auto;
     }
 
     .cloud-close {
@@ -1137,7 +1141,6 @@
     .get-started-btn {
       position: relative;
       z-index: 20020;
-      pointer-events: auto;
       display: inline-block;
       border-radius: 50px;
       padding: 14px 36px;
@@ -2729,6 +2732,22 @@
         setMenuOpen(false);
       }
     });
+
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth > 600) return;
+
+      const allowedInteractiveTarget = e.target.closest(
+        '.nav-logo, .hamburger, .nav-links a, .nav-links button, .nav-cta, ' +
+        '.btn-primary, .btn-secondary, .details-btn, .cloud-overlay.active, .cloud-popup, ' +
+        '.cloud-close, .get-started-btn, .contact-detail-value a, .contact-form label, ' +
+        '.form-input, .form-select, .form-textarea, .form-submit, .footer-logo, .footer-links button'
+      );
+
+      if (allowedInteractiveTarget) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+    }, true);
    
     function smoothScrollToTarget(target) {
       if (!target) return;
