@@ -1845,12 +1845,23 @@
         gap: 1.35rem;
       }
 
-      .planet-orbit,
-      .planet-orbit:nth-child(1),
-      .planet-orbit:nth-child(2),
+      .planet-orbit {
+        margin-top: 0;
+      }
+
+      .planet-orbit:nth-child(1) {
+        margin-top: 0;
+        animation: float 6.4s ease-in-out infinite;
+      }
+
+      .planet-orbit:nth-child(2) {
+        margin-top: 0;
+        animation: float 7.6s ease-in-out infinite 0.8s;
+      }
+
       .planet-orbit:nth-child(3) {
         margin-top: 0;
-        animation: none;
+        animation: float 6.9s ease-in-out infinite 0.35s;
       }
 
       .planet {
@@ -2652,6 +2663,18 @@
 
       setMenuOpen(false);
     });
+
+    const servicesSection = document.getElementById('services');
+    if (servicesSection) {
+      servicesSection.addEventListener('click', (e) => {
+        if (window.innerWidth > 600) return;
+        if (e.target.closest('.details-btn')) return;
+        if (e.target.closest('.cloud-overlay')) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+      }, true);
+    }
 
     window.addEventListener('resize', () => {
       if (window.innerWidth > 768) {
