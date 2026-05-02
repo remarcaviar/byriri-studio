@@ -173,7 +173,8 @@
       align-items: center;
     }
 
-    .nav-links a {
+    .nav-links a,
+    .nav-links button {
       font-size: 0.7rem;
       text-decoration: none;
       color: #FFFFFF;
@@ -184,6 +185,7 @@
     }
 
     .nav-links a:hover,
+    .nav-links button:hover,
     .nav-logo:hover,
     .footer-logo:hover,
     .footer-links a:hover,
@@ -204,6 +206,16 @@
       border-radius: 50px;
       transition: all 0.4s ease;
       display: inline-block;
+    }
+
+    .nav-links button {
+      font-family: var(--font-ui);
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
     }
 
     .nav-cta:hover,
@@ -1402,9 +1414,22 @@
     }
 
     .footer-links a,
+    .footer-links button,
     .footer-copy {
       font-size: 0.62rem;
       text-decoration: none;
+    }
+
+    .footer-links button {
+      font-family: var(--font-ui);
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: inherit;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
     }
 
     .footer-copy {
@@ -1658,7 +1683,8 @@
         border: 1px solid rgba(255, 255, 255, 0.12);
       }
 
-      .nav-links a {
+      .nav-links a,
+      .nav-links button {
         display: block;
         width: 100%;
         padding: 1rem 1rem 0.95rem;
@@ -2123,9 +2149,9 @@
       <li><a href="#services">Services</a></li>
       <li><a href="#testimonials">Testimonials</a></li>
       <li><a href="#process">Process</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><button type="button" data-section-target="contact">Contact</button></li>
     </ul>
-    <a href="#contact" class="nav-cta">Work with me</a>
+    <button type="button" class="nav-cta" data-section-target="contact">Work with me</button>
   </nav>
 
   <section class="hero" id="home">
@@ -2402,9 +2428,9 @@
   <footer>
     <a href="#" class="footer-logo">By Riri</a>
     <ul class="footer-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#contact">Work With Me</a></li>
+      <li><button type="button" data-section-target="about">About</button></li>
+      <li><button type="button" data-section-target="services">Services</button></li>
+      <li><button type="button" data-section-target="contact">Work With Me</button></li>
     </ul>
     <p class="footer-copy">© 2026 By Riri. All rights reserved.</p>
   </footer>
@@ -2647,7 +2673,7 @@
       setMenuOpen(!menu.classList.contains('active'));
     }
     
-    document.querySelectorAll('.nav-links a').forEach((link) => {
+    document.querySelectorAll('.nav-links a, .nav-links button').forEach((link) => {
       link.addEventListener('click', () => {
         setMenuOpen(false);
       });
@@ -2676,53 +2702,88 @@
       }, true);
     }
 
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.addEventListener('click', (e) => {
+        if (window.innerWidth > 600) return;
+        if (e.target.closest('a, button, input, select, textarea, label')) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+      }, true);
+    }
+
+    const footerElement = document.querySelector('footer');
+    if (footerElement) {
+      footerElement.addEventListener('click', (e) => {
+        if (window.innerWidth > 600) return;
+        if (e.target.closest('.footer-logo, .footer-links button')) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+      }, true);
+    }
+
     window.addEventListener('resize', () => {
       if (window.innerWidth > 768) {
         setMenuOpen(false);
       }
     });
    
-    document.querySelectorAll('nav a[href^="#"], footer a[href^="#"], .hero-actions a[href^="#"]').forEach((link) => {
-        link.addEventListener('click', function (e) {
-          const targetId = this.getAttribute('href');
+    function smoothScrollToTarget(target) {
+      if (!target) return;
 
-          if (!targetId || targetId === '#') return;
+      const startY = window.scrollY;
+      const targetY = target.getBoundingClientRect().top + window.scrollY - 88;
+      const distance = targetY - startY;
+      const duration = 1800;
+      let startTime = null;
 
-          const target = document.querySelector(targetId);
-          if (!target) return;
+      function easeInOutCubic(t) {
+        return t < 0.5
+          ? 4 * t * t * t
+          : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
 
-          e.preventDefault();
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
 
-          const startY = window.scrollY;
-          const targetY = target.getBoundingClientRect().top + window.scrollY - 88;
-          const distance = targetY - startY;
-          const duration = 1800;
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = easeInOutCubic(progress);
 
-          let startTime = null;
+        window.scrollTo(0, startY + distance * eased);
 
-          function easeInOutCubic(t) {
-            return t < 0.5
-              ? 4 * t * t * t
-              : 1 - Math.pow(-2 * t + 2, 3) / 2;
-          }
-
-          function step(timestamp) {
-            if (!startTime) startTime = timestamp;
-
-            const elapsed = timestamp - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = easeInOutCubic(progress);
-
-            window.scrollTo(0, startY + distance * eased);
-
-            if (progress < 1) {
-              requestAnimationFrame(step);
-            }
-          }
-
+        if (progress < 1) {
           requestAnimationFrame(step);
-        });
-      });  
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    document.querySelectorAll('nav a[href^="#"], .hero-actions a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+
+        if (!targetId || targetId === '#') return;
+
+        const target = document.querySelector(targetId);
+        if (!target) return;
+
+        e.preventDefault();
+        smoothScrollToTarget(target);
+      });
+    });
+
+    document.querySelectorAll('[data-section-target]').forEach((control) => {
+      control.addEventListener('click', () => {
+        const sectionId = control.getAttribute('data-section-target');
+        const target = sectionId ? document.getElementById(sectionId) : null;
+        if (!target) return;
+        smoothScrollToTarget(target);
+      });
+    });
   </script>
 </body>
 
