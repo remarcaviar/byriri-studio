@@ -2049,7 +2049,8 @@
         pointer-events: auto;
       }
 
-      .footer-links a {
+      .footer-links a,
+      .footer-links button {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -2061,6 +2062,7 @@
         font-size: 0.7rem;
         font-weight: 500;
         letter-spacing: 0.18em;
+        -webkit-text-fill-color: #6f5126;
         text-shadow: 0 1px 6px rgba(255, 244, 217, 0.06);
       }
 
@@ -2136,6 +2138,14 @@
         background-position: center center;
       }
     }
+   @media (max-width: 900px) {
+  footer .footer-logo,
+  footer .footer-links a,
+  footer .footer-links button {
+    color: #5a463b !important;
+    text-shadow: none;
+  }
+}
   </style>
 </head>
 
