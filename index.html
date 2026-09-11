@@ -2548,6 +2548,27 @@
       line-height: 1.2;
     }
 
+    /* Keep testimonial copy static while the card itself can float on mobile. */
+    .testimonial-card .animate-on-scroll {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    /* Keep the Services package description visible without a scroll reveal. */
+    #services .services-intro p.animate-on-scroll {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    /* Keep section labels visible without a scroll reveal. */
+    .section-label.animate-on-scroll {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
     @media (min-width: 769px) {
       .testimonials-grid {
         gap: 2.5rem;
@@ -2558,6 +2579,7 @@
         max-width: 639.6px;
         padding: 1.968rem;
         gap: 1.23rem;
+        animation: none;
       }
 
       .testimonial-name {
