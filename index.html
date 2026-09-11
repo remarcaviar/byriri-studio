@@ -41,10 +41,6 @@
       scroll-behavior: auto;
     }
 
-    #process {
-      scroll-margin-top: 88px;
-    }
-
     body {
       min-height: 100vh;
       background-color: #eadbc7;
@@ -86,7 +82,6 @@
     .hero-right,
     .hero-left,
     .tier-card,
-    .process-step,
     .about-pullquote,
     .form-input,
     .form-select,
@@ -362,7 +357,6 @@
     .about-text p,
     .services-intro p,
     .contact-left p,
-    .process-desc,
     .pullquote-credential-value,
     .tier-features li,
     .contact-detail-value,
@@ -380,7 +374,6 @@
     .about-text,
     .services-intro,
     .contact-left,
-    .process-desc,
     .pullquote-credential-value,
     .tier-features,
     .contact-detail-value,
@@ -699,63 +692,6 @@
       width: 100%;
     }
 
-    .process-step {
-      position: relative;
-      overflow: hidden;
-      border-radius: 10px;
-      min-height: 320px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 22px 18px 20px;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .process-step:hover {
-      transform: scale(1.02);
-      z-index: 2;
-    }
-
-    .process-step::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(15, 8, 4, 0.35);
-      transition: background 0.5s ease;
-      z-index: 0;
-    }
-
-    .process-step:hover::before {
-      background: rgba(15, 8, 4, 0.18);
-    }
-
-    .process-step::after {
-      display: none;
-    }
-
-    .process-step>* {
-      position: relative;
-      z-index: 1;
-    }
-
-    .process-step-1 {
-      background-image: url('process-inquiry.jpg');
-    }
-
-    .process-step-2 {
-      background-image: url('process-brief.jpg');
-    }
-
-    .process-step-3 {
-      background-image: url('process-strategy.jpg');
-    }
-
-    .process-step-4 {
-      background-image: url('process-delivery.jpg');
-    }
-
     @keyframes float {
 
       0%,
@@ -911,8 +847,7 @@
     }
 
     .tier-name,
-    .planet-name,
-    .process-title {
+    .planet-name {
       font-family: var(--font-display);
       font-weight: 400;
       color: #FFFFFF;
@@ -1163,13 +1098,6 @@
       transform: translateY(-2px);
     }
 
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-top: 4rem;
-    }
-
     .testimonials-head {
       display: grid;
       grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
@@ -1261,33 +1189,8 @@
       max-width: 24ch;
     }
 
-    .process-number {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: clamp(2.8rem, 5vw, 4.25rem);
-      line-height: 1;
-      color: rgba(44, 31, 20, 0.8);
-      margin-bottom: 1.2rem;
-      text-shadow: 0 1px 8px rgba(255, 241, 222, 0.08);
-    }
-
-    .process-title {
-      font-size: 1.4rem;
-      margin-bottom: 0.65rem;
-      color: rgba(255, 255, 255, 0.9);
-      text-shadow: 0 1px 10px rgba(45, 24, 10, 0.14);
-    }
-
-    .process-title,
     .tier-name {
       font-style: normal;
-    }
-
-    .process-desc {
-      font-size: 1.02rem;
-      max-width: 22ch;
-      color: rgba(255, 255, 255, 0.84);
-      text-shadow: 0 1px 10px rgba(45, 24, 10, 0.12);
     }
 
     .contact-left .section-title {
@@ -1612,8 +1515,7 @@
         min-height: 60vh;
       }
 
-      .tiers-grid,
-      .process-grid {
+      .tiers-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
@@ -1639,8 +1541,7 @@
 
       .about-grid,
       .contact-grid,
-      .testimonials-head,
-      .process-grid {
+      .testimonials-head {
         grid-template-columns: 1fr;
       }
 
@@ -1651,10 +1552,6 @@
 
       .testimonials-intro {
         justify-self: start;
-      }
-
-      .process-desc {
-        max-width: 620px;
       }
 
       footer {
@@ -1790,7 +1687,6 @@
       .about-text p,
       .services-intro p,
       .contact-left p,
-      .process-desc,
       .pullquote-credential-value,
       .tier-features li,
       .contact-detail-value,
@@ -1925,8 +1821,7 @@
 
       .about-grid,
       .contact-grid,
-      .testimonials-head,
-      .process-grid {
+      .testimonials-head {
         gap: 2rem;
       }
 
@@ -2029,24 +1924,6 @@
       .cloud-features li {
         font-size: 0.76rem;
         line-height: 1.65;
-      }
-
-      .process-grid {
-        grid-template-columns: 1fr;
-        margin-top: 2.5rem;
-      }
-
-      .process-step {
-        min-height: 260px;
-        padding: 20px 16px 18px;
-      }
-
-      .process-number {
-        margin-bottom: 0.8rem;
-      }
-
-      .process-desc {
-        max-width: none;
       }
 
       .testimonials-head {
@@ -2225,7 +2102,6 @@
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#testimonials">Testimonials</a></li>
-      <li><a href="#process">Process</a></li>
       <li><button type="button" data-section-target="contact">Contact</button></li>
     </ul>
     <button type="button" class="nav-cta" data-section-target="contact">Work with me</button>
@@ -2414,37 +2290,6 @@
     </div>
   </section>
 
-  <section id="process">
-    <div class="section-label">How it works</div>
-    <div class="section-rule"></div>
-    <h2 class="section-title">Simple, considered,<br><em>deliberate.</em></h2>
-    <div class="process-grid">
-      <div class="process-step process-step-1">
-        <div class="process-number">01</div>
-        <h3 class="process-title">Inquiry</h3>
-        <p class="process-desc">Fill in the contact form with your business details and chosen package. You'll receive a
-          response with next steps within 24 hours.</p>
-      </div>
-      <div class="process-step process-step-2">
-        <div class="process-number">02</div>
-        <h3 class="process-title">Brief</h3>
-        <p class="process-desc">You fill a detailed brand questionnaire. The more you share, the sharper the output.</p>
-      </div>
-      <div class="process-step process-step-3">
-        <div class="process-number">03</div>
-        <h3 class="process-title">Strategy</h3>
-        <p class="process-desc">I research, position, and build your brand identity kit with precision and editorial
-          care.</p>
-      </div>
-      <div class="process-step process-step-4">
-        <div class="process-number">04</div>
-        <h3 class="process-title">Delivery</h3>
-        <p class="process-desc">You receive a polished brand kit. Revisions included. Your brand, finally
-          intentional.</p>
-      </div>
-    </div>
-  </section>
-
   <section id="contact">
     <div class="section-label">Contact</div>
     <div class="section-rule"></div>
@@ -2562,7 +2407,7 @@
         });
     }
 
-    const revealGroups = ['.hero-left', '.hero-visual', '#about', '#services', '#testimonials', '#process', '#contact'];
+    const revealGroups = ['.hero-left', '.hero-visual', '#about', '#services', '#testimonials', '#contact'];
     const revealSelector = 'h1, h2, h3, p, .section-label';
     const animatedElements = [];
 
