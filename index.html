@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Josefin+Sans:wght@300;400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&family=DM+Sans:wght@400;500&family=Imbue:opsz,wght@10..100,400;10..100,500&family=Josefin+Sans:wght@300;400&display=swap"
     rel="stylesheet">
   <style>
     
@@ -27,11 +27,10 @@
     }
 
     :root {
-      --bg-image: url('background.jpg');
-      --text-primary: rgba(255, 255, 255, 0.75);
-      --text-accent: #FFFFFF;
-      --text-muted: #FFFFFF;
-      --text-quote: rgba(255, 255, 255, 0.75);
+      --text-primary: #000000;
+      --text-accent: #000000;
+      --text-muted: #000000;
+      --text-quote: #000000;
       --button-bg: #2C1F14;
       --button-text: #F5EBD9;
       --hairline: rgba(255, 255, 255, 0.18);
@@ -48,12 +47,7 @@
 
     body {
       min-height: 100vh;
-      background-color: #eadbc7;
-      background-image: var(--bg-image);
-      background-size: 100% auto;
-      background-repeat: repeat-y;
-      background-position: center top;
-      background-attachment: fixed;
+      background-color: #FFF7EC;
       color: var(--text-primary);
       font-family: var(--font-display);
       font-weight: 300;
@@ -95,7 +89,7 @@
     }
 
     nav {
-      position: fixed;
+      position: absolute;
       top: 0;
       left: 0;
       right: 0;
@@ -673,7 +667,8 @@
 
     #services {
       position: relative;
-      z-index: 30;
+      /* Let fixed cloud overlays escape this section's stacking context and sit above the nav. */
+      z-index: auto;
       overflow: visible;
     }
 
@@ -815,11 +810,11 @@
     }
 
     .planet-starter {
-      background-image: url('planet-starter.jpg');
+      background-image: url('starter-planet-bg.jpeg');
     }
 
     .planet-studio {
-      background-image: url('planet-studio.jpg');
+      background-image: url('studio-planet-bg.jpeg');
     }
 
     .tier-card.featured {
@@ -837,7 +832,7 @@
     }
 
     .planet-signature {
-      background-image: url('planet-signature.jpg');
+      background-image: url('signature-planet-bg.jpeg');
     }
 
     .tier-badge,
@@ -999,22 +994,31 @@
 
     .cloud-close {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      width: auto;
-      height: auto;
-      border-radius: 0;
+      /* Keep the small cross visually aligned while giving it a reliable touch target. */
+      top: 4px;
+      right: 4px;
+      z-index: 2;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
       border: none;
       background: transparent;
       color: #FFFFFF;
       font-size: 0.9rem;
+      line-height: 1;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
       transition: opacity 0.3s ease;
       padding: 0;
       letter-spacing: 0;
+    }
+
+    .cloud-close span {
+      pointer-events: none;
     }
 
     .cloud-close:hover {
@@ -1134,8 +1138,13 @@
     }
 
     .testimonials-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
+      display: flex;
+      gap: 2rem;
+      overflow-x: auto;
+      padding: 0.25rem 0 1.25rem;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-color: var(--studio-espresso) transparent;
     }
 
     .testimonial-card {
@@ -1146,11 +1155,49 @@
       padding: 1.8rem 2rem 2rem;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
       gap: 1.5rem;
       backdrop-filter: blur(8px);
       border-radius: 22px;
       animation: float 7.5s ease-in-out infinite;
+      flex: 0 0 min(34rem, 84vw);
+      scroll-snap-align: start;
+    }
+
+    .testimonial-controls {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.25rem;
+      margin: 2rem 0 0.75rem;
+    }
+
+    .testimonial-carousel-control {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      color: var(--studio-espresso);
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      line-height: 1;
+      cursor: pointer;
+      transition: color 180ms ease, transform 180ms ease;
+    }
+
+    .testimonial-carousel-control:hover {
+      background: transparent;
+      color: var(--studio-blue);
+      transform: translateX(2px);
+    }
+
+    .testimonial-carousel-control:first-child:hover {
+      transform: translateX(-2px);
     }
 
     .testimonial-meta {
@@ -1909,8 +1956,8 @@
       }
 
       .cloud-close {
-        top: 16px;
-        right: 16px;
+        top: 0;
+        right: 0;
       }
 
       .cloud-price {
@@ -2092,12 +2139,564 @@
     text-shadow: none;
   }
 }
+
+    /* By Riri visual system — planet and cloud components intentionally retain their original styling. */
+    :root {
+      --studio-ivory: #FFF7EC;
+      --studio-blue: #A9C1EE;
+      --studio-blue-light: #DCE7FA;
+      --studio-espresso: #5A3027;
+      --studio-ink: #241613;
+      --studio-rule: rgba(90, 48, 39, 0.22);
+    }
+
+    body {
+      background: var(--studio-ivory);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.7;
+    }
+
+    body::before,
+    #contact::before,
+    #contact::after {
+      display: none;
+    }
+
+    body,
+    body * {
+      color: var(--studio-espresso) !important;
+    }
+
+    /* Masthead: supplied image at 60% opacity behind the espresso wordmark. */
+    nav {
+      min-height: 8.7rem;
+      padding: 1.2rem 4rem;
+      background: #FFF7EC;
+      border-bottom: 0;
+      backdrop-filter: none;
+    }
+
+    nav::before {
+      display: block;
+      background-image: url('nav-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.6;
+    }
+
+    nav::after {
+      display: none;
+    }
+
+    html {
+      scroll-padding-top: 8.7rem;
+    }
+
+    .nav-logo {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0;
+      color: inherit;
+      font-family: 'Bodoni 72', 'Didot', serif;
+      line-height: 0.8;
+      text-decoration: none;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .nav-logo .wordmark-riri {
+      color: #5A3027 !important;
+      font-family: 'Imbue', 'Bodoni 72', 'Didot', serif;
+      font-size: clamp(2.1rem, 4.35vw, 4.95rem);
+      font-weight: 400;
+      letter-spacing: -0.065em;
+    }
+
+    .footer-logo {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    nav .nav-links a,
+    nav .nav-links button {
+      color: #5A3027 !important;
+      font-weight: 500;
+      text-shadow: none;
+    }
+
+    nav .nav-cta {
+      background: #5A3027;
+      border-color: #5A3027;
+      color: #FFF7EC !important;
+    }
+
+    nav .hamburger {
+      color: #5A3027 !important;
+    }
+
+    nav .hamburger-line {
+      background-color: #5A3027;
+    }
+
+    .nav-links a,
+    .nav-links button,
+    .nav-cta,
+    .btn-primary,
+    .btn-secondary,
+    .form-submit,
+    .section-label,
+    .footer-links a,
+    .footer-links button,
+    .footer-copy,
+    .contact-detail-label,
+    .form-label {
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: 0.12em;
+    }
+
+    .nav-cta,
+    .btn-primary,
+    .form-submit {
+      color: var(--studio-ivory) !important;
+      background: var(--studio-espresso);
+      border-color: var(--studio-espresso);
+      border-radius: 0;
+      padding: 0.85rem 1.4rem;
+    }
+
+    .btn-primary,
+    .form-submit {
+      color: var(--studio-espresso) !important;
+      background: transparent;
+      border-color: var(--studio-espresso);
+      border-radius: 999px;
+    }
+
+    .nav-cta:hover,
+    .btn-primary:hover,
+    .form-submit:hover {
+      background: var(--studio-blue);
+      border-color: var(--studio-blue);
+      color: var(--studio-espresso) !important;
+    }
+
+    .form-submit:hover,
+    .form-submit:active {
+      background: var(--studio-ivory);
+      border-color: var(--studio-espresso);
+    }
+
+    .btn-secondary {
+      border-bottom-color: var(--studio-espresso);
+      font-weight: 500;
+    }
+
+    .hero {
+      grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+      padding-top: 8.7rem;
+    }
+
+    .hero-left {
+      padding: 9rem 7vw 7rem;
+      align-items: center;
+      text-align: center;
+    }
+
+    .ambient-blob,
+    .about-stars {
+      display: none;
+    }
+
+    .hero-logo {
+      display: block;
+      width: clamp(15.8rem, 26.2vw, 25.1rem);
+      height: auto;
+      margin-bottom: 2rem;
+      flex-shrink: 0;
+      transform: translateY(-2.75rem);
+    }
+
+    .hero-eyebrow,
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+    }
+
+    .hero-title,
+    .hero-title em,
+    .section-title,
+    .section-title em,
+    .testimonials-title {
+      font-family: 'Bodoni Moda', serif;
+      color: var(--studio-espresso) !important;
+      font-weight: 500;
+    }
+
+    .hero-title {
+      max-width: 15ch;
+      font-size: clamp(2.51rem, 5.02vw, 5.58rem);
+      line-height: 0.91;
+      letter-spacing: -0.055em;
+      margin-bottom: 2rem;
+      text-wrap: balance;
+    }
+
+    .hero-title em,
+    .section-title em {
+      font-weight: 400;
+    }
+
+    .hero-tagline,
+    .about-text p,
+    .services-intro p,
+    .contact-left p,
+    .pullquote-credential-value,
+    .contact-detail-value,
+    .contact-detail-value a,
+    .form-input,
+    .form-select,
+    .form-textarea,
+    .testimonials-intro {
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: 0.01em;
+      color: var(--studio-espresso) !important;
+    }
+
+    .hero-right {
+      min-height: calc(100vh - 8.7rem);
+      padding: 0;
+      background: var(--studio-ivory);
+      overflow: hidden;
+    }
+
+    .hero-video,
+    .hero-video-overlay,
+    .hero-visual,
+    .hero-corner {
+      display: none;
+    }
+
+    .hero-letter {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      animation: letterFloat 7s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    .hero-right picture {
+      position: absolute;
+      inset: 0;
+      display: block;
+    }
+
+    /* On larger screens, the letter gets its own visual beat below the introduction. */
+    @media (min-width: 769px) {
+      nav .nav-cta {
+        border-radius: 999px;
+      }
+
+      nav .nav-links a,
+      nav .nav-links button {
+        font-weight: 600;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-left {
+        min-height: auto;
+      }
+
+      .hero-right {
+        min-height: 0;
+        height: min(74.67vw, 900px);
+      }
+
+      .hero-letter {
+        --letter-scale: 0.70;
+      }
+    }
+
+    @keyframes letterFloat {
+      0%, 100% {
+        transform: scale(var(--letter-scale, 1.035)) translateY(0);
+      }
+
+      50% {
+        transform: scale(var(--letter-scale, 1.035)) translateY(-14px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-letter {
+        animation: none;
+      }
+    }
+
+    .hero-quote,
+    .hero-quote-sub,
+    .hero-corner {
+      color: var(--studio-ivory) !important;
+    }
+
+    .hero-quote {
+      font-family: 'Bodoni Moda', serif;
+      font-size: clamp(1.5rem, 2.5vw, 2.35rem);
+      line-height: 1.35;
+    }
+
+    .hero-quote-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+    }
+
+    .hero-quote-rule,
+    .section-rule,
+    .pullquote-rule,
+    .section-label::before {
+      background: var(--studio-rule);
+    }
+
+    .hero-quote-rule {
+      background: var(--studio-ivory);
+    }
+
+    .hero-corner {
+      opacity: 0.24;
+      font-family: 'Bodoni Moda', serif;
+    }
+
+    .monogram-divider {
+      padding: 1.4rem 7vw;
+    }
+
+    .monogram-line {
+      background: var(--studio-rule);
+    }
+
+    .monogram-rc {
+      color: var(--studio-blue) !important;
+      font-family: 'Bodoni Moda', serif;
+    }
+
+    section {
+      padding: 9rem 7vw;
+    }
+
+    .section-title {
+      font-size: clamp(2.8rem, 5vw, 5.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+    }
+
+    .pullquote-text {
+      font-family: 'Bodoni Moda', serif;
+      font-size: clamp(1.6rem, 2.8vw, 2.6rem);
+      line-height: 1.32;
+      color: var(--studio-espresso) !important;
+    }
+
+    #services {
+      background: var(--studio-blue-light);
+    }
+
+    /* The container changes only; planets and cloud cards retain their existing visual treatment. */
+    #services .section-rule {
+      background: rgba(90, 48, 39, 0.22);
+    }
+
+    #testimonials {
+      background: var(--studio-ivory);
+    }
+
+    .testimonials-title {
+      font-size: clamp(3.2rem, 6.4vw, 6.2rem);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+    }
+
+    .testimonial-card {
+      max-width: 780px;
+      padding: 2.4rem;
+      background: #FFFFFF url('testimonial-paper-texture.jpeg') center / cover;
+      border-color: var(--studio-rule);
+      border-radius: 0;
+      box-shadow: 10px 10px 0 var(--studio-blue);
+      backdrop-filter: none;
+    }
+
+    .testimonial-avatar {
+      border-color: var(--studio-blue);
+    }
+
+    .testimonial-name,
+    .testimonial-role,
+    .testimonial-quote {
+      color: var(--studio-espresso) !important;
+    }
+
+    .testimonial-quote {
+      font-family: 'Bodoni Moda', serif;
+      line-height: 1.2;
+    }
+
+    @media (min-width: 769px) {
+      .testimonials-grid {
+        gap: 2.5rem;
+      }
+
+      .testimonial-card {
+        flex-basis: min(27.88rem, 68.88vw);
+        max-width: 639.6px;
+        padding: 1.968rem;
+        gap: 1.23rem;
+      }
+
+      .testimonial-name {
+        font-size: 0.902rem;
+      }
+
+      .testimonial-role {
+        font-size: 0.738rem;
+      }
+
+      .testimonial-quote {
+        font-size: clamp(1.189rem, 1.968vw, 1.64rem);
+      }
+    }
+
+    #contact {
+      background: var(--studio-blue);
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      border-bottom-color: rgba(90, 48, 39, 0.45);
+      border-radius: 0;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: rgba(90, 48, 39, 0.62) !important;
+    }
+
+    footer {
+      padding: 2.2rem 7vw;
+      background: var(--studio-espresso);
+      border-top: 0;
+    }
+
+    footer,
+    footer * {
+      color: var(--studio-ivory) !important;
+    }
+
+    footer .footer-links button {
+      color: var(--studio-blue) !important;
+    }
+
+    /* Protected interactive package components. */
+    .planet,
+    .planet *,
+    .cloud-overlay,
+    .cloud-overlay * {
+      color: #FFFFFF !important;
+    }
+
+    .planet-studio,
+    .planet-studio * {
+      color: var(--studio-espresso) !important;
+    }
+
+    .planet-studio .details-btn {
+      border-color: var(--studio-espresso);
+    }
+
+    .planet-studio::before,
+    .planet-studio:hover::before {
+      background:
+        linear-gradient(180deg, rgba(255, 247, 236, 0.06), rgba(255, 247, 236, 0.16)),
+        radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.2), transparent 38%);
+    }
+
+    @media (max-width: 768px) {
+      footer .footer-links button {
+        color: var(--studio-blue) !important;
+      }
+
+      nav {
+        min-height: 5.7rem;
+        padding: 1rem;
+      }
+
+      html {
+        scroll-padding-top: 5.7rem;
+      }
+
+      .hero {
+        padding-top: 5.7rem;
+      }
+
+      .nav-logo {
+        gap: 0;
+      }
+
+      .nav-logo .wordmark-riri {
+        font-size: clamp(1.72rem, 9vw, 2.7rem);
+      }
+
+      nav .nav-links {
+        background: #A9C1EE;
+        border-color: rgba(90, 48, 39, 0.22);
+        box-shadow: 0 18px 40px rgba(90, 48, 39, 0.18);
+      }
+
+      nav .nav-links li {
+        background: rgba(255, 247, 236, 0.24);
+        border-color: rgba(90, 48, 39, 0.16);
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-left,
+      section {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
+
+      .hero-left {
+        padding-top: 7.5rem;
+      }
+
+      .hero-right {
+        min-height: 0;
+        aspect-ratio: 0.806 / 1;
+      }
+
+      footer {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
+    }
   </style>
 </head>
 
 <body>
   <nav>
-    <a href="#" class="nav-logo">By Riri</a>
+    <a href="#" class="nav-logo" aria-label="By Riri">
+      <span class="wordmark-riri">By Riri</span>
+    </a>
     <button class="hamburger" type="button" onclick="toggleMenu()" aria-label="Toggle navigation" aria-controls="site-menu" aria-expanded="false">
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
@@ -2120,33 +2719,19 @@
             d="M469.5,332.5Q417,365,401,428.5Q385,492,322.5,501Q260,510,205.5,485Q151,460,135.5,404Q120,348,81.5,296.5Q43,245,71.5,189Q100,133,153,95Q206,57,271.5,55Q337,53,398.5,84Q460,115,489,176Q518,237,503,301.5Q488,366,469.5,332.5Z" />
         </svg>
       </div>
+      <img class="hero-logo" src="studio-by-riri-logo.jpeg" alt="Studio by Riri">
       <p class="hero-eyebrow">Brand Strategy & Visual Identity</p>
-      <h1 class="hero-title overlay-text">
-        <span>Know</span>
-        <span>it.</span><br>
-        <span><em>Build</em></span>
-        <span><em>it.</em></span><br>
-        <span>Mean</span>
-        <span>it.</span>
-      </h1>
-      <p class="hero-tagline">For brands ready to be seen.</p>
+      <h1 class="hero-title overlay-text">Where a good idea <em>finally</em> sounds like one.</h1>
       <div class="hero-actions">
         <a href="#services" class="btn-primary">View services</a>
         <a href="#about" class="btn-secondary">About Riri</a>
       </div>
     </div>
     <div class="hero-right">
-      <video class="hero-video" autoplay muted loop playsinline>
-        <source src="https://res.cloudinary.com/dmkidcodx/video/upload/v1775646710/12451274_1920_1080_24fps_ywpcxh.mp4"
-          type="video/mp4">
-      </video>
-      <div class="hero-video-overlay"></div>
-      <div class="hero-visual">
-        <p class="hero-quote">"A brand is not what you say it is. It's what they say it is."</p>
-        <div class="hero-quote-rule"></div>
-        <p class="hero-quote-sub">Positioning · Identity · Purpose</p>
-      </div>
-      <div class="hero-corner">RC</div>
+      <picture>
+        <source media="(max-width: 768px)" srcset="feather-letter-mobile-v3.png">
+        <img class="hero-letter" src="feather-letter-desktop-v3.png" alt="Feather envelope carrying a note about brand perception">
+      </picture>
     </div>
   </section>
 
@@ -2163,7 +2748,6 @@
       <span></span>
     </div>
     <div class="section-label">About</div>
-    <div class="section-rule"></div>
     <div class="about-grid">
       <div class="about-text">
         <h2 class="section-title">Strategy meets<br><em>aesthetic intelligence.</em></h2>
@@ -2214,7 +2798,7 @@
 
     <div class="cloud-overlay" id="cloud-essentials">
       <div class="cloud-popup">
-        <button class="cloud-close" type="button" onclick="closeCloud('essentials')"><span>✕</span></button>
+        <button class="cloud-close" type="button" onclick="closeCloud('essentials')" aria-label="Close The Essentials details"><span aria-hidden="true">✕</span></button>
         <p class="cloud-label">Starter</p>
         <h2 class="cloud-name">The Essentials</h2>
         <p class="cloud-price">₹4,999 · Delivery in 5 days</p>
@@ -2225,7 +2809,7 @@
           <li>— Mood board (3 directions)</li>
           <li>— Colours & fonts that fit your vibe</li>
           <li>— Typography pairing</li>
-          <li>— PDF brand summary</li>
+          <li>— Brand summary document</li>
         </ul>
         <button type="button" class="get-started-btn" onclick="goToContact('essentials')">Get Started</button>
       </div>
@@ -2233,7 +2817,7 @@
 
     <div class="cloud-overlay" id="cloud-fullkit">
       <div class="cloud-popup">
-        <button class="cloud-close" type="button" onclick="closeCloud('fullkit')"><span>✕</span></button>
+        <button class="cloud-close" type="button" onclick="closeCloud('fullkit')" aria-label="Close The Full Kit details"><span aria-hidden="true">✕</span></button>
         <p class="cloud-label">Studio · Most popular</p>
         <h2 class="cloud-name">The Full Kit</h2>
         <p class="cloud-price">₹12,999 · Delivery in 10 days</p>
@@ -2252,7 +2836,7 @@
 
     <div class="cloud-overlay" id="cloud-works">
       <div class="cloud-popup">
-        <button class="cloud-close" type="button" onclick="closeCloud('works')"><span>✕</span></button>
+        <button class="cloud-close" type="button" onclick="closeCloud('works')" aria-label="Close The Works details"><span aria-hidden="true">✕</span></button>
         <p class="cloud-label">Signature</p>
         <h2 class="cloud-name">The Works</h2>
         <p class="cloud-price">₹24,999 · Delivery in 15 days</p>
@@ -2264,7 +2848,6 @@
           <li>— Brand patterns/graphics</li>
          <li>- Expanded brand guide (20-25 pages)</li>   
           <li>- Content direction (what to say, how to sound)</li> 
-          <li>- 1-hour strategy call</li>
           <li>- 30-day post-launch support</li>
          </ul>
         <button type="button" class="get-started-btn" onclick="goToContact('works')">Get Started</button>
@@ -2277,13 +2860,16 @@
     <div class="section-rule"></div>
     <div class="testimonials-head">
       <h2 class="testimonials-title">Our Clients</h2>
-      <p class="testimonials-intro">What our clients say after working with By Riri on their brand clarity, positioning,
+      <p class="testimonials-intro">What our clients say after working with us on their brand clarity, positioning,
         and identity direction.</p>
+    </div>
+    <div class="testimonial-controls" aria-label="Testimonial carousel controls">
+      <button class="testimonial-carousel-control" type="button" onclick="scrollTestimonials(-1)" aria-label="Show previous testimonial">←</button>
+      <button class="testimonial-carousel-control" type="button" onclick="scrollTestimonials(1)" aria-label="Show next testimonial">→</button>
     </div>
     <div class="testimonials-grid">
       <article class="testimonial-card">
         <div class="testimonial-meta">
-          <img class="testimonial-avatar" src="testimonial-pizzacolada.jpg" alt="Pizza Colada logo">
           <div>
             <div class="testimonial-name">Ayush Mangal</div>
             <div class="testimonial-role">Pizza Colada</div>
@@ -2291,6 +2877,24 @@
         </div>
         <p class="testimonial-quote">"Honestly, loved the branding kit. It went so well with what we had in our mind
           from brand positioning to tagline, everything was just perfect"</p>
+      </article>
+      <article class="testimonial-card">
+        <div class="testimonial-meta">
+          <div>
+            <div class="testimonial-name">Chantal Bedel</div>
+            <div class="testimonial-role">Pagaille Studio</div>
+          </div>
+        </div>
+        <p class="testimonial-quote">"Riri helped us move from ‘we have a logo’ to actually having a brand. The positioning, visual identity and overall direction gave us a much clearer way to present ourselves, and it made everything we created afterwards so much easier"</p>
+      </article>
+      <article class="testimonial-card">
+        <div class="testimonial-meta">
+          <div>
+            <div class="testimonial-name">Erin Franz</div>
+            <div class="testimonial-role">LoCasa</div>
+          </div>
+        </div>
+        <p class="testimonial-quote">"They really took the time to understand the brand.<br>You can see that in every little detail."</p>
       </article>
     </div>
   </section>
@@ -2359,9 +2963,9 @@
   <footer>
     <a href="#" class="footer-logo">By Riri</a>
     <ul class="footer-links">
-      <li><button type="button" data-section-target="about">About</button></li>
-      <li><button type="button" data-section-target="services">Services</button></li>
-      <li><button type="button" data-section-target="contact">Work With Me</button></li>
+      <li><button type="button" data-section-target="about" style="color: #A9C1EE !important;">About</button></li>
+      <li><button type="button" data-section-target="services" style="color: #A9C1EE !important;">Services</button></li>
+      <li><button type="button" data-section-target="contact" style="color: #A9C1EE !important;">Work With Me</button></li>
     </ul>
     <p class="footer-copy">© 2026 By Riri. All rights reserved.</p>
   </footer>
@@ -2603,6 +3207,12 @@
       if (!menu) return;
       setMenuOpen(!menu.classList.contains('active'));
     }
+
+    function scrollTestimonials(direction) {
+      const carousel = document.querySelector('.testimonials-grid');
+      if (!carousel) return;
+      carousel.scrollBy({ left: direction * carousel.clientWidth * 0.86, behavior: 'smooth' });
+    }
     
     document.querySelectorAll('.nav-links a, .nav-links button').forEach((link) => {
       link.addEventListener('click', () => {
@@ -2667,7 +3277,7 @@
       const allowedInteractiveTarget = e.target.closest(
         '.nav-logo, .hamburger, .nav-links a, .nav-links button, .nav-cta, ' +
         '.btn-primary, .btn-secondary, .details-btn, .cloud-overlay.active, .cloud-popup, ' +
-        '.cloud-close, .get-started-btn, .contact-detail-value a, .contact-form label, ' +
+        '.cloud-close, .get-started-btn, .testimonial-carousel-control, .contact-detail-value a, .contact-form label, ' +
         '.form-input, .form-select, .form-textarea, .form-submit, .footer-logo, .footer-links button'
       );
 
