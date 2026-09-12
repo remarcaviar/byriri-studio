@@ -2497,10 +2497,13 @@
       letter-spacing: -0.045em;
     }
 
-    /* Keep Bodoni Moda, using a less extreme optical size so its t crossbars stay visible. */
-    #about .section-title {
-      font-optical-sizing: none;
-      font-variation-settings: 'opsz' 48;
+    /* Keep the original Bodoni glyphs intact while preventing hairlines from disappearing on mobile. */
+    @media (max-width: 768px) {
+      #about .section-title,
+      .testimonials-title {
+        -webkit-text-stroke: 0.012em currentColor;
+        paint-order: stroke fill;
+      }
     }
 
     .pullquote-text {
